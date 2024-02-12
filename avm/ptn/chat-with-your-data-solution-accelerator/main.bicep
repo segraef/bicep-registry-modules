@@ -11,9 +11,9 @@ param ResourcePrefix string
 param resourceGroup string = '${ResourcePrefix}-rg'
 
 @description('Location for all resources.')
-param Location string = deployment().location
+param location string = deployment().location
 
-@description('Name of App Service plan')
+@description('Name of App Service plan.')
 param HostingPlanName string = '${ResourcePrefix}-hosting-plan'
 
 @description('The pricing tier for the App Service plan')
@@ -33,61 +33,61 @@ param HostingPlanName string = '${ResourcePrefix}-hosting-plan'
 ])
 param HostingPlanSku string = 'B3'
 
-@description('Name of Web App')
+@description('Name of Web App.')
 param WebsiteName string = '${ResourcePrefix}-website'
 
-@description('Name of Log Analytics Workspace for App Insights')
+@description('Name of Log Analytics Workspace for App Insights.')
 param logAnalyticsWorkspaceName string = '${ResourcePrefix}-loganalytics'
 
-@description('Name of Application Insights')
+@description('Name of Application Insights.')
 param ApplicationInsightsName string = '${ResourcePrefix}-appinsights'
 
-@description('Use semantic search')
+@description('Use semantic search.')
 param AzureSearchUseSemanticSearch string = 'false'
 
-@description('Semantic search config')
+@description('Semantic search config.')
 param AzureSearchSemanticSearchConfig string = 'default'
 
-@description('Is the index prechunked')
+@description('Is the index prechunked.')
 param AzureSearchIndexIsPrechunked string = 'false'
 
-@description('Top K results')
+@description('Top K results.')
 param AzureSearchTopK string = '5'
 
-@description('Enable in domain')
+@description('Enable in domain.')
 param AzureSearchEnableInDomain string = 'false'
 
-@description('Content columns')
+@description('Content columns.')
 param AzureSearchContentColumns string = 'content'
 
-@description('Filename column')
+@description('Filename column.')
 param AzureSearchFilenameColumn string = 'filename'
 
-@description('Title column')
+@description('Title column.')
 param AzureSearchTitleColumn string = 'title'
 
-@description('Url column')
+@description('Url column.')
 param AzureSearchUrlColumn string = 'url'
 
-@description('Name of Azure OpenAI Resource')
+@description('Name of Azure OpenAI Resource.')
 param AzureOpenAIResource string = '${ResourcePrefix}oai'
 
-@description('Azure OpenAI GPT Model Deployment Name')
+@description('Azure OpenAI GPT Model Deployment Name.')
 param AzureOpenAIGPTModel string = 'gpt-35-turbo'
 
-@description('Azure OpenAI GPT Model Name')
+@description('Azure OpenAI GPT Model Name.')
 param AzureOpenAIGPTModelName string = 'gpt-35-turbo'
 
-@description('Azure OpenAI GPT Model Version')
+@description('Azure OpenAI GPT Model Version.')
 param AzureOpenAIGPTModelVersion string = '0613'
 
 @description('Azure OpenAI Embedding Model Deployment Name')
 param AzureOpenAIEmbeddingModel string = 'text-embedding-ada-002'
 
-@description('Azure OpenAI GPT Model Name')
+@description('Azure OpenAI GPT Model Name.')
 param AzureOpenAIEmbeddingModelName string = 'text-embedding-ada-002'
 
-@description('Azure OpenAI GPT Model Version')
+@description('Azure OpenAI GPT Model Version.')
 param AzureOpenAIEmbeddingModelVersion string = '2'
 
 @description('Orchestration strategy: openai_function or langchain str. If you use a old version of turbo (0301), plese select langchain')
@@ -97,28 +97,28 @@ param AzureOpenAIEmbeddingModelVersion string = '2'
 ])
 param OrchestrationStrategy string
 
-@description('Azure OpenAI Temperature')
+@description('Azure OpenAI Temperature.')
 param AzureOpenAITemperature string = '0'
 
-@description('Azure OpenAI Top P')
+@description('Azure OpenAI Top P.')
 param AzureOpenAITopP string = '1'
 
-@description('Azure OpenAI Max Tokens')
+@description('Azure OpenAI Max Tokens.')
 param AzureOpenAIMaxTokens string = '1000'
 
-@description('Azure OpenAI Stop Sequence')
+@description('Azure OpenAI Stop Sequence.')
 param AzureOpenAIStopSequence string = '\n'
 
-@description('Azure OpenAI System Message')
+@description('Azure OpenAI System Message.')
 param AzureOpenAISystemMessage string = 'You are an AI assistant that helps people find information.'
 
-@description('Azure OpenAI Api Version')
+@description('Azure OpenAI Api Version.')
 param AzureOpenAIApiVersion string = '2023-07-01-preview'
 
-@description('Whether or not to stream responses from Azure OpenAI')
+@description('Whether or not to stream responses from Azure OpenAI.')
 param AzureOpenAIStream string = 'true'
 
-@description('Azure AI Search Resource')
+@description('Azure AI Search Resource.')
 param AzureCognitiveSearch string = '${ResourcePrefix}-search'
 
 @description('The SKU of the search service you want to create. E.g. free or standard')
@@ -131,28 +131,28 @@ param AzureCognitiveSearch string = '${ResourcePrefix}-search'
 ])
 param AzureCognitiveSearchSku string = 'standard'
 
-@description('Azure AI Search Index')
+@description('Azure AI Search Index.')
 param AzureSearchIndex string = '${ResourcePrefix}-index'
 
-@description('Azure AI Search Conversation Log Index')
+@description('Azure AI Search Conversation Log Index.')
 param AzureSearchConversationLogIndex string = 'conversations'
 
-@description('Name of Storage Account')
+@description('Name of Storage Account.')
 param StorageAccountName string = '${ResourcePrefix}str'
 
 @description('Name of Function App for Batch document processing')
 param FunctionName string = '${ResourcePrefix}-backend'
 
-@description('Azure Form Recognizer Name')
+@description('Azure Form Recognizer Name.')
 param FormRecognizerName string = '${ResourcePrefix}-formrecog'
 
-@description('Azure Form Recognizer Location')
-param FormRecognizerLocation string = Location
+@description('Azure Form Recognizer location.')
+param FormRecognizerLocation string = location
 
-@description('Azure Speech Service Name')
+@description('Azure Speech Service Name.')
 param SpeechServiceName string = '${ResourcePrefix}-speechservice'
 
-@description('Azure Content Safety Name')
+@description('Azure Content Safety Name.')
 param ContentSafetyName string = '${ResourcePrefix}-contentsafety'
 param newGuidString string = newGuid()
 
@@ -165,6 +165,8 @@ param authType string = 'keys'
 @description('Id of the user or app to assign application roles')
 param principalId string = ''
 
+// Variables
+
 var WebAppImageName = 'DOCKER|fruoccopublic.azurecr.io/rag-webapp'
 var AdminWebAppImageName = 'DOCKER|fruoccopublic.azurecr.io/rag-adminwebapp'
 var BackendImageName = 'DOCKER|fruoccopublic.azurecr.io/rag-backend'
@@ -174,18 +176,35 @@ var QueueName = 'doc-processing'
 var ClientKey = '${uniqueString(guid(deployment().name))}${newGuidString}'
 var EventGridSystemTopicName = 'doc-processing'
 
+// Existing Resources
+
+resource OpenAiExisting 'Microsoft.CognitiveServices/accounts@2023-05-01' existing = {
+  scope: az.resourceGroup(rgResource.name)
+  name: AzureOpenAIResource
+}
+
+resource ApplicationInsightsExisting 'Microsoft.Insights/components@2020-02-02' existing = {
+  scope: az.resourceGroup(rgResource.name)
+  name: ApplicationInsightsName
+}
+
+resource StorageAccountExisting 'Microsoft.Storage/storageAccounts@2023-01-01' existing = {
+  scope: az.resourceGroup(rgResource.name)
+  name: StorageAccountName
+}
+
 // Resources
 
 resource rgResource 'Microsoft.Resources/resourceGroups@2023-07-01' = {
   name: resourceGroup
-  location: Location
+  location: location
 }
 
 module OpenAI 'br/public:avm/res/cognitive-services/account:0.3.4' = {
   scope: rgResource
   name: '${uniqueString(deployment().name)}-${AzureOpenAIResource}'
   params: {
-    location: Location
+    location: location
     kind: 'OpenAI' // TODO: Waiting for https://github.com/Azure/bicep-registry-modules/pull/980
     name: AzureOpenAIResource
     sku: 'S0'
@@ -235,7 +254,7 @@ module AzureCognitiveSearch_resource 'br/public:avm/res/search/search-service:0.
   scope: rgResource
   name: '${uniqueString(deployment().name)}-${AzureCognitiveSearch}'
   params: {
-    location: Location
+    location: location
     name: AzureCognitiveSearch
     tags: {
       deployment: 'chatwithyourdata-sa'
@@ -308,7 +327,7 @@ module HostingPlan 'br/public:avm/res/web/serverfarm:0.1.0' = {
   name: '${uniqueString(deployment().name)}-${HostingPlanName}'
   params: {
     name: HostingPlanName
-    location: Location
+    location: location
     sku: {
       name: HostingPlanSku
     }
@@ -323,9 +342,10 @@ module Website 'br/public:avm/res/web/site:0.2.0' = {
   params: {
     name: WebsiteName
     serverFarmResourceId: HostingPlan.outputs.resourceId
+    kind: 'app'
     siteConfig: {
       appSettings: [
-        { name: 'APPINSIGHTS_CONNECTION_STRING', value: reference(ApplicationInsights.id, '2015-05-01').ConnectionString }
+        { name: 'APPINSIGHTS_CONNECTION_STRING', value: reference(ApplicationInsightsExisting.id, '2015-05-01').ConnectionString }
         { name: 'AZURE_SEARCH_SERVICE', value: 'https://${AzureCognitiveSearch}.search.windows.net' }
         { name: 'AZURE_SEARCH_INDEX', value: AzureSearchIndex }
         { name: 'AZURE_SEARCH_USE_SEMANTIC_SEARCH', value: AzureSearchUseSemanticSearch }
@@ -341,7 +361,7 @@ module Website 'br/public:avm/res/web/site:0.2.0' = {
         { name: 'AZURE_SEARCH_TITLE_COLUMN', value: AzureSearchTitleColumn }
         { name: 'AZURE_SEARCH_URL_COLUMN', value: AzureSearchUrlColumn }
         { name: 'AZURE_OPENAI_RESOURCE', value: AzureOpenAIResource }
-        { name: 'AZURE_OPENAI_KEY', value: authType == 'keys' ? OpenAI.listKeys('2023-05-01').key1 : null }
+        { name: 'AZURE_OPENAI_KEY', value: authType == 'keys' ? OpenAiExisting.listKeys('2023-05-01').key1 : null }
         { name: 'AZURE_OPENAI_MODEL', value: AzureOpenAIGPTModel }
         { name: 'AZURE_OPENAI_MODEL_NAME', value: AzureOpenAIGPTModelName }
         { name: 'AZURE_OPENAI_TEMPERATURE', value: AzureOpenAITemperature }
@@ -352,17 +372,17 @@ module Website 'br/public:avm/res/web/site:0.2.0' = {
         { name: 'AZURE_OPENAI_API_VERSION', value: AzureOpenAIApiVersion }
         { name: 'AZURE_OPENAI_STREAM', value: AzureOpenAIStream }
         { name: 'AZURE_OPENAI_EMBEDDING_MODEL', value: AzureOpenAIEmbeddingModel }
-        { name: 'AZURE_FORM_RECOGNIZER_ENDPOINT', value: 'https://${Location}.api.cognitive.microsoft.com/' }
+        { name: 'AZURE_FORM_RECOGNIZER_ENDPOINT', value: 'https://${location}.api.cognitive.microsoft.com/' }
         { name: 'AZURE_FORM_RECOGNIZER_KEY', value: listKeys('Microsoft.CognitiveServices/accounts/${FormRecognizerName}', '2023-05-01').key1 }
         { name: 'AZURE_BLOB_ACCOUNT_NAME', value: StorageAccountName }
-        { name: 'AZURE_BLOB_ACCOUNT_KEY', value: listKeys(StorageAccount.id, '2019-06-01').keys[0].value }
+        { name: 'AZURE_BLOB_ACCOUNT_KEY', value: listKeys(StorageAccountExisting.id, '2019-06-01').keys[0].value }
         { name: 'AZURE_BLOB_CONTAINER_NAME', value: BlobContainerName }
         { name: 'ORCHESTRATION_STRATEGY', value: OrchestrationStrategy }
-        { name: 'AZURE_CONTENT_SAFETY_ENDPOINT', value: 'https://${Location}.api.cognitive.microsoft.com/' }
+        { name: 'AZURE_CONTENT_SAFETY_ENDPOINT', value: 'https://${location}.api.cognitive.microsoft.com/' }
         { name: 'AZURE_CONTENT_SAFETY_KEY', value: listKeys('Microsoft.CognitiveServices/accounts/${ContentSafetyName}', '2023-05-01').key1 }
         { name: 'AZURE_SPEECH_SERVICE_NAME', value: SpeechServiceName }
         { name: 'AZURE_SPEECH_SERVICE_KEY', value: listKeys('Microsoft.CognitiveServices/accounts/${SpeechServiceName}', '2023-05-01').key1 }
-        { name: 'AZURE_SPEECH_SERVICE_REGION', value: Location }
+        { name: 'AZURE_SPEECH_SERVICE_REGION', value: location }
       ]
       linuxFxVersion: WebAppImageName
       minTlsVersion: '1.2'
@@ -370,10 +390,10 @@ module Website 'br/public:avm/res/web/site:0.2.0' = {
     managedIdentities: authType == 'rbac' ? {
       systemAssigned: true
     } : null
-    dependsOn: [
-      HostingPlan
-    ]
   }
+  dependsOn: [
+    HostingPlan
+  ]
 }
 
 module WebsiteName_admin 'br/public:avm/res/web/site:0.2.0' = {
@@ -382,9 +402,10 @@ module WebsiteName_admin 'br/public:avm/res/web/site:0.2.0' = {
   params: {
     name: '${WebsiteName}-admin'
     serverFarmResourceId: HostingPlan.outputs.resourceId
+    kind: 'app'
     siteConfig: {
       appSettings: [
-        { name: 'APPINSIGHTS_INSTRUMENTATIONKEY', value: reference(ApplicationInsights.id, '2015-05-01').InstrumentationKey }
+        { name: 'APPINSIGHTS_INSTRUMENTATIONKEY', value: reference(ApplicationInsightsExisting.id, '2015-05-01').InstrumentationKey }
         { name: 'AZURE_SEARCH_SERVICE', value: 'https://${AzureCognitiveSearch}.search.windows.net' }
         { name: 'AZURE_AUTH_TYPE', value: authType }
         { name: 'AZURE_SEARCH_KEY', value: authType == 'keys' ? listAdminKeys('Microsoft.Search/searchServices/${AzureCognitiveSearch}', '2021-04-01-preview').primaryKey : null }
@@ -399,7 +420,7 @@ module WebsiteName_admin 'br/public:avm/res/web/site:0.2.0' = {
         { name: 'AZURE_SEARCH_TITLE_COLUMN', value: AzureSearchTitleColumn }
         { name: 'AZURE_SEARCH_URL_COLUMN', value: AzureSearchUrlColumn }
         { name: 'AZURE_OPENAI_RESOURCE', value: AzureOpenAIResource }
-        { name: 'AZURE_OPENAI_KEY', value: authType == 'keys' ? OpenAI.listKeys('2023-05-01').key1 : null }
+        { name: 'AZURE_OPENAI_KEY', value: authType == 'keys' ? OpenAiExisting.listKeys('2023-05-01').key1 : null }
         { name: 'AZURE_OPENAI_MODEL', value: AzureOpenAIGPTModel }
         { name: 'AZURE_OPENAI_MODEL_NAME', value: AzureOpenAIGPTModelName }
         { name: 'AZURE_OPENAI_TEMPERATURE', value: AzureOpenAITemperature }
@@ -410,7 +431,7 @@ module WebsiteName_admin 'br/public:avm/res/web/site:0.2.0' = {
         { name: 'AZURE_OPENAI_API_VERSION', value: AzureOpenAIApiVersion }
         { name: 'AZURE_OPENAI_STREAM', value: AzureOpenAIStream }
         { name: 'AZURE_OPENAI_EMBEDDING_MODEL', value: AzureOpenAIEmbeddingModel }
-        { name: 'AZURE_FORM_RECOGNIZER_ENDPOINT', value: 'https://${Location}.api.cognitive.microsoft.com/' }
+        { name: 'AZURE_FORM_RECOGNIZER_ENDPOINT', value: 'https://${location}.api.cognitive.microsoft.com/' }
         { name: 'AZURE_FORM_RECOGNIZER_KEY', value: listKeys('Microsoft.CognitiveServices/accounts/${FormRecognizerName}', '2023-05-01').key1 }
         { name: 'AZURE_BLOB_ACCOUNT_NAME', value: StorageAccountName }
         { name: 'AZURE_BLOB_ACCOUNT_KEY', value: listKeys(StorageAccount.id, '2019-06-01').keys[0].value }
@@ -419,7 +440,7 @@ module WebsiteName_admin 'br/public:avm/res/web/site:0.2.0' = {
         { name: 'BACKEND_URL', value: 'https://${FunctionName}.azurewebsites.net' }
         { name: 'FUNCTION_KEY', value: ClientKey }
         { name: 'ORCHESTRATION_STRATEGY', value: OrchestrationStrategy }
-        { name: 'AZURE_CONTENT_SAFETY_ENDPOINT', value: 'https://${Location}.api.cognitive.microsoft.com/' }
+        { name: 'AZURE_CONTENT_SAFETY_ENDPOINT', value: 'https://${location}.api.cognitive.microsoft.com/' }
         { name: 'AZURE_CONTENT_SAFETY_KEY', value: listKeys('Microsoft.CognitiveServices/accounts/${ContentSafetyName}', '2023-05-01').key1 }
       ]
       linuxFxVersion: AdminWebAppImageName
@@ -428,10 +449,10 @@ module WebsiteName_admin 'br/public:avm/res/web/site:0.2.0' = {
     managedIdentities: authType == 'rbac' ? {
       systemAssigned: true
     } : null
-    dependsOn: [
-      HostingPlan
-    ]
   }
+  dependsOn: [
+    HostingPlan
+  ]
 }
 
 module StorageAccount 'br/public:avm/res/storage/storage-account:0.6.0' = {
@@ -439,18 +460,18 @@ module StorageAccount 'br/public:avm/res/storage/storage-account:0.6.0' = {
   name: '${uniqueString(deployment().name)}-${StorageAccountName}'
   params: {
     name: StorageAccountName
-    location: Location
+    location: location
     kind: 'StorageV2'
     skuName: 'Standard_GRS'
     minimumTlsVersion: 'TLS1_2'
     blobServices: {
       containers: [
         {
-          name: 'default/${BlobContainerName}'
+          name: 'default/${BlobContainerName}' // TODO: might need to remove default/
           publicAccess: 'None'
         }
         {
-          name: 'default/config'
+          name: 'default/config' // TODO: might need to remove default/
           publicAccess: 'None'
         }
       ]
@@ -476,22 +497,24 @@ module logAnalyticsWorkspace 'br/public:avm/res/operational-insights/workspace:0
   name: '${uniqueString(deployment().name)}-${logAnalyticsWorkspaceName}'
   params: {
     name: logAnalyticsWorkspaceName
-    location: Location
+    location: location
     skuName: 'PerGB2018'
   }
 }
 
-resource ApplicationInsights 'Microsoft.Insights/components@2020-02-02' = {
-  name: ApplicationInsightsName
-  location: Location
-  tags: {
-    'hidden-link:${resourceId('Microsoft.Web/sites', ApplicationInsightsName)}': 'Resource'
+module ApplicationInsights 'br/public:avm/res/insights/component:0.2.0' = {
+  scope: rgResource
+  name: '${uniqueString(deployment().name)}-${ApplicationInsightsName}'
+  params: {
+    name: ApplicationInsightsName
+    location: location
+    workspaceResourceId: logAnalyticsWorkspace.outputs.resourceId
+    kind: 'web'
+    applicationType: 'web'
+    tags: {
+      'hidden-link:${resourceId('Microsoft.Web/sites', WebsiteName)}': 'Resource'
+    }
   }
-  properties: {
-    Application_Type: 'web'
-    WorkspaceResourceId: logAnalyticsWorkspace.id
-  }
-  kind: 'web'
 }
 
 module Function 'br/public:avm/res/web/site:0.2.0' = {
@@ -507,17 +530,17 @@ module Function 'br/public:avm/res/web/site:0.2.0' = {
       appSettings: [
         { name: 'FUNCTIONS_EXTENSION_VERSION', value: '~4' }
         { name: 'WEBSITES_ENABLE_APP_SERVICE_STORAGE', value: 'false' }
-        { name: 'APPINSIGHTS_INSTRUMENTATIONKEY', value: reference(ApplicationInsights.id, '2015-05-01').InstrumentationKey }
-        { name: 'AzureWebJobsStorage', value: 'DefaultEndpointsProtocol=https;AccountName=${StorageAccountName};AccountKey=${listKeys(StorageAccount.id, '2019-06-01').keys[0].value};EndpointSuffix=core.windows.net' }
+        { name: 'APPINSIGHTS_INSTRUMENTATIONKEY', value: reference(ApplicationInsightsExisting.id, '2015-05-01').InstrumentationKey }
+        { name: 'AzureWebJobsStorage', value: 'DefaultEndpointsProtocol=https;AccountName=${StorageAccountName};AccountKey=${listKeys(StorageAccountExisting.id, '2019-06-01').keys[0].value};EndpointSuffix=core.windows.net' }
         { name: 'AZURE_AUTH_TYPE', value: authType }
         { name: 'AZURE_OPENAI_MODEL', value: AzureOpenAIGPTModel }
         { name: 'AZURE_OPENAI_EMBEDDING_MODEL', value: AzureOpenAIEmbeddingModel }
         { name: 'AZURE_OPENAI_RESOURCE', value: AzureOpenAIResource }
-        { name: 'AZURE_OPENAI_KEY', value: authType == 'keys' ? OpenAI.listKeys('2023-05-01').key1 : null }
+        { name: 'AZURE_OPENAI_KEY', value: authType == 'keys' ? OpenAiExisting.listKeys('2023-05-01').key1 : null } // TODO: replace listKeys with resource existing (targetScope rg), module outputs or differently
         { name: 'AZURE_BLOB_ACCOUNT_NAME', value: StorageAccountName }
-        { name: 'AZURE_BLOB_ACCOUNT_KEY', value: listKeys(StorageAccount.id, '2019-06-01').keys[0].value }
+        { name: 'AZURE_BLOB_ACCOUNT_KEY', value: listKeys(StorageAccountExisting.id, '2019-06-01').keys[0].value }
         { name: 'AZURE_BLOB_CONTAINER_NAME', value: BlobContainerName }
-        { name: 'AZURE_FORM_RECOGNIZER_ENDPOINT', value: 'https://${Location}.api.cognitive.microsoft.com/' }
+        { name: 'AZURE_FORM_RECOGNIZER_ENDPOINT', value: 'https://${location}.api.cognitive.microsoft.com/' }
         { name: 'AZURE_FORM_RECOGNIZER_KEY', value: listKeys('Microsoft.CognitiveServices/accounts/${FormRecognizerName}', '2023-05-01').key1 }
         { name: 'AZURE_SEARCH_SERVICE', value: 'https://${AzureCognitiveSearch}.search.windows.net' }
         { name: 'AZURE_SEARCH_KEY', value: authType == 'keys' ? listAdminKeys('Microsoft.Search/searchServices/${AzureCognitiveSearch}', '2021-04-01-preview').primaryKey : null }
@@ -525,7 +548,7 @@ module Function 'br/public:avm/res/web/site:0.2.0' = {
         { name: 'AZURE_OPENAI_API_VERSION', value: AzureOpenAIApiVersion }
         { name: 'AZURE_SEARCH_INDEX', value: AzureSearchIndex }
         { name: 'ORCHESTRATION_STRATEGY', value: OrchestrationStrategy }
-        { name: 'AZURE_CONTENT_SAFETY_ENDPOINT', value: 'https://${Location}.api.cognitive.microsoft.com/' }
+        { name: 'AZURE_CONTENT_SAFETY_ENDPOINT', value: 'https://${location}.api.cognitive.microsoft.com/' }
         { name: 'AZURE_CONTENT_SAFETY_KEY', value: listKeys('Microsoft.CognitiveServices/accounts/${ContentSafetyName}', '2023-05-01').key1 }
       ]
       cors: {
@@ -542,10 +565,10 @@ module Function 'br/public:avm/res/web/site:0.2.0' = {
     managedIdentities: authType == 'rbac' ? {
       systemAssigned: true
     } : null
-    dependsOn: [
-      HostingPlan
-    ]
   }
+  dependsOn: [
+    HostingPlan
+  ]
 }
 
 resource FunctionName_default_clientKey 'Microsoft.Web/sites/host/functionKeys@2018-11-01' = {
@@ -556,60 +579,60 @@ resource FunctionName_default_clientKey 'Microsoft.Web/sites/host/functionKeys@2
   }
   dependsOn: [
     Function
-    WaitFunctionDeploymentSection
+    // WaitFunctionDeploymentSection
   ]
 }
 
-resource WaitFunctionDeploymentSection 'Microsoft.Resources/deploymentScripts@2020-10-01' = {
-  kind: 'AzurePowerShell'
-  name: 'WaitFunctionDeploymentSection'
-  location: Location
-  properties: {
-    azPowerShellVersion: '3.0'
-    scriptContent: 'start-sleep -Seconds 300'
-    cleanupPreference: 'Always'
-    retentionInterval: 'PT1H'
-  }
-  dependsOn: [
-    Function
-  ]
-}
+// resource WaitFunctionDeploymentSection 'Microsoft.Resources/deploymentScripts@2020-10-01' = {
+//   kind: 'AzurePowerShell'
+//   name: 'WaitFunctionDeploymentSection'
+//   location: location
+//   properties: {
+//     azPowerShellVersion: '3.0'
+//     scriptContent: 'start-sleep -Seconds 300'
+//     cleanupPreference: 'Always'
+//     retentionInterval: 'PT1H'
+//   }
+//   dependsOn: [
+//     Function
+//   ]
+// }
 
-resource EventGridSystemTopic 'Microsoft.EventGrid/systemTopics@2021-12-01' = {
-  name: EventGridSystemTopicName
-  location: Location
-  properties: {
-    source: StorageAccount.id
+module EventGridSystemTopic 'br/public:avm/res/event-grid/system-topic:0.2.2' = {
+  scope: rgResource
+  name: '${uniqueString(deployment().name)}-${EventGridSystemTopicName}'
+  params: {
+    name: EventGridSystemTopicName
+    location: location
+    source: StorageAccount.outputs.resourceId
     topicType: 'Microsoft.Storage.StorageAccounts'
-  }
-}
-
-resource EventGridSystemTopicName_BlobEvents 'Microsoft.EventGrid/systemTopics/eventSubscriptions@2021-12-01' = {
-  parent: EventGridSystemTopic
-  name: 'BlobEvents'
-  properties: {
-    destination: {
-      endpointType: 'StorageQueue'
-      properties: {
-        queueMessageTimeToLiveInSeconds: -1
-        queueName: StorageAccountName_default_doc_processing.name
-        resourceId: StorageAccount.id
+    eventSubscriptions: [
+      {
+        name: 'BlobEvents'
+        destination: {
+          endpointType: 'StorageQueue'
+          properties: {
+            queueMessageTimeToLiveInSeconds: -1
+            queueName: QueueName
+            resourceId: StorageAccount.outputs.resourceId
+          }
+        }
+        filter: {
+          includedEventTypes: [
+            'Microsoft.Storage.BlobCreated'
+            'Microsoft.Storage.BlobDeleted'
+          ]
+          enableAdvancedFilteringOnArrays: true
+          subjectBeginsWith: '/blobServices/default/containers/${BlobContainerName}/blobs/'
+        }
+        labels: []
+        eventDeliverySchema: 'EventGridSchema'
+        retryPolicy: {
+          maxDeliveryAttempts: 30
+          eventTimeToLiveInMinutes: 1440
+        }
       }
-    }
-    filter: {
-      includedEventTypes: [
-        'Microsoft.Storage.BlobCreated'
-        'Microsoft.Storage.BlobDeleted'
-      ]
-      enableAdvancedFilteringOnArrays: true
-      subjectBeginsWith: '/blobServices/default/containers/${BlobContainerName}/blobs/'
-    }
-    labels: []
-    eventDeliverySchema: 'EventGridSchema'
-    retryPolicy: {
-      maxDeliveryAttempts: 30
-      eventTimeToLiveInMinutes: 1440
-    }
+    ]
   }
 }
 
@@ -617,7 +640,7 @@ module rgRbac 'br/public:avm/res/resources/resource-group:0.2.2' = {
   name: '${uniqueString(deployment().name)}-rg'
   params: {
     name: resourceGroup
-    location: Location
+    location: location
     roleAssignments: authType == 'rbac' ? [
       {
         // Cognitive Services OpenAI Contributor role for Search resource
@@ -750,7 +773,7 @@ module rgRbacPrincipalId 'br/public:avm/res/resources/resource-group:0.2.2' = {
   name: '${uniqueString(deployment().name)}-rg'
   params: {
     name: resourceGroup
-    location: Location
+    location: location
     roleAssignments: authType == 'rbac' && principalId != '' ? [
       {
         // Cognitive Services OpenAI Contributor role for the User
