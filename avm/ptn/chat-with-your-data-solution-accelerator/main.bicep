@@ -171,7 +171,7 @@ var BackendImageName = 'DOCKER|fruoccopublic.azurecr.io/rag-backend'
 
 var BlobContainerName = 'documents'
 var QueueName = 'doc-processing'
-var ClientKey = '${uniqueString(guid(resourceGroup().id, deployment().name))}${newGuidString}'
+var ClientKey = '${uniqueString(guid(deployment().name))}${newGuidString}'
 var EventGridSystemTopicName = 'doc-processing'
 
 // Resources
@@ -186,7 +186,7 @@ module OpenAI 'br/public:avm/res/cognitive-services/account:0.3.4' = {
   name: '${uniqueString(deployment().name)}-${AzureOpenAIResource}'
   params: {
     location: Location
-    kind: 'OpenAI' // TODO; Waiting for https://github.com/Azure/bicep-registry-modules/pull/980
+    kind: 'OpenAI' // TODO: Waiting for https://github.com/Azure/bicep-registry-modules/pull/980
     name: AzureOpenAIResource
     sku: 'S0'
     customSubDomainName: AzureOpenAIResource
@@ -276,6 +276,7 @@ module FormRecognizer 'br/public:avm/res/cognitive-services/account:0.3.4' = {
   name: '${uniqueString(deployment().name)}-${FormRecognizerName}'
   params: {
     name: FormRecognizerName
+    location: FormRecognizerLocation
     sku: 'S0'
     kind: 'FormRecognizer'
     networkAcls: {
@@ -293,7 +294,7 @@ module ContentSafety 'br/public:avm/res/cognitive-services/account:0.3.4' = {
   params: {
     name: ContentSafetyName
     sku: 'S0'
-    kind: 'ContentSafety'
+    kind: 'ContentSafety' // TODO: Waiting for https://github.com/Azure/bicep-registry-modules/pull/980
     networkAcls: {
       defaultAction: 'Allow'
       virtualNetworkRules: []
@@ -433,64 +434,41 @@ module WebsiteName_admin 'br/public:avm/res/web/site:0.2.0' = {
   }
 }
 
-resource StorageAccount 'Microsoft.Storage/storageAccounts@2021-08-01' = {
-  name: StorageAccountName
-  location: Location
-  kind: 'StorageV2'
-  sku: {
-    name: 'Standard_GRS'
-  }
-  properties: {
+module StorageAccount 'br/public:avm/res/storage/storage-account:0.6.0' = {
+  scope: rgResource
+  name: '${uniqueString(deployment().name)}-${StorageAccountName}'
+  params: {
+    name: StorageAccountName
+    location: Location
+    kind: 'StorageV2'
+    skuName: 'Standard_GRS'
     minimumTlsVersion: 'TLS1_2'
-  }
-}
-
-resource StorageAccountName_default_BlobContainer 'Microsoft.Storage/storageAccounts/blobServices/containers@2021-08-01' = {
-  name: '${StorageAccountName}/default/${BlobContainerName}'
-  properties: {
-    publicAccess: 'None'
-  }
-  dependsOn: [
-    StorageAccount
-  ]
-}
-
-resource StorageAccountName_default_config 'Microsoft.Storage/storageAccounts/blobServices/containers@2021-08-01' = {
-  name: '${StorageAccountName}/default/config'
-  properties: {
-    publicAccess: 'None'
-  }
-  dependsOn: [
-    StorageAccount
-  ]
-}
-
-resource StorageAccountName_default 'Microsoft.Storage/storageAccounts/queueServices@2022-09-01' = {
-  parent: StorageAccount
-  name: 'default'
-  properties: {
-    cors: {
-      corsRules: []
+    blobServices: {
+      containers: [
+        {
+          name: 'default/${BlobContainerName}'
+          publicAccess: 'None'
+        }
+        {
+          name: 'default/config'
+          publicAccess: 'None'
+        }
+      ]
+    }
+    queueServices: {
+      queues: [
+        {
+          name: 'default'
+        }
+        {
+          name: 'doc-processing'
+        }
+        {
+          name: 'doc-processing-poison'
+        }
+      ]
     }
   }
-}
-
-resource StorageAccountName_default_doc_processing 'Microsoft.Storage/storageAccounts/queueServices/queues@2022-09-01' = {
-  parent: StorageAccountName_default
-  name: 'doc-processing'
-  properties: {
-    metadata: {}
-  }
-  dependsOn: []
-}
-
-resource StorageAccountName_default_doc_processing_poison 'Microsoft.Storage/storageAccounts/queueServices/queues@2022-09-01' = {
-  parent: StorageAccountName_default
-  name: 'doc-processing-poison'
-  properties: {
-    metadata: {}
-  }
-  dependsOn: []
 }
 
 module logAnalyticsWorkspace 'br/public:avm/res/operational-insights/workspace:0.2.0' = {
@@ -499,7 +477,7 @@ module logAnalyticsWorkspace 'br/public:avm/res/operational-insights/workspace:0
   params: {
     name: logAnalyticsWorkspaceName
     location: Location
-    sku: 'PerGB2018'
+    skuName: 'PerGB2018'
   }
 }
 
