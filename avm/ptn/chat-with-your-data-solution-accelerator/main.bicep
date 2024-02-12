@@ -271,17 +271,13 @@ module SpeechService 'br/public:avm/res/cognitive-services/account:0.3.4' = {
   }
 }
 
-resource FormRecognizer 'Microsoft.CognitiveServices/accounts@2022-12-01' = {
-  name: FormRecognizerName
-  location: FormRecognizerLocation
-  sku: {
-    name: 'S0'
-  }
-  kind: 'FormRecognizer'
-  identity: {
-    type: 'None'
-  }
-  properties: {
+module FormRecognizer 'br/public:avm/res/cognitive-services/account:0.3.4' = {
+  scope: rgResource
+  name: '${uniqueString(deployment().name)}-${FormRecognizerName}'
+  params: {
+    name: FormRecognizerName
+    sku: 'S0'
+    kind: 'FormRecognizer'
     networkAcls: {
       defaultAction: 'Allow'
       virtualNetworkRules: []
@@ -291,17 +287,13 @@ resource FormRecognizer 'Microsoft.CognitiveServices/accounts@2022-12-01' = {
   }
 }
 
-resource ContentSafety 'Microsoft.CognitiveServices/accounts@2022-03-01' = {
-  name: ContentSafetyName
-  location: Location
-  sku: {
-    name: 'S0'
-  }
-  kind: 'ContentSafety'
-  identity: {
-    type: 'None'
-  }
-  properties: {
+module ContentSafety 'br/public:avm/res/cognitive-services/account:0.3.4' = {
+  scope: rgResource
+  name: '${uniqueString(deployment().name)}-${ContentSafetyName}'
+  params: {
+    name: ContentSafetyName
+    sku: 'S0'
+    kind: 'ContentSafety'
     networkAcls: {
       defaultAction: 'Allow'
       virtualNetworkRules: []
@@ -332,12 +324,13 @@ module Website 'br/public:avm/res/web/site:0.2.0' = {
     serverFarmResourceId: HostingPlan.outputs.resourceId
     siteConfig: {
       appSettings: [
-        { name: 'APPINSIGHTS_INSTRUMENTATIONKEY', value: reference(ApplicationInsights.id, '2015-05-01').InstrumentationKey }
+        { name: 'APPINSIGHTS_CONNECTION_STRING', value: reference(ApplicationInsights.id, '2015-05-01').ConnectionString }
         { name: 'AZURE_SEARCH_SERVICE', value: 'https://${AzureCognitiveSearch}.search.windows.net' }
-        { name: 'AZURE_AUTH_TYPE', value: authType }
-        { name: 'AZURE_SEARCH_KEY', value: authType == 'keys' ? listAdminKeys('Microsoft.Search/searchServices/${AzureCognitiveSearch}', '2021-04-01-preview').primaryKey : null }
         { name: 'AZURE_SEARCH_INDEX', value: AzureSearchIndex }
         { name: 'AZURE_SEARCH_USE_SEMANTIC_SEARCH', value: AzureSearchUseSemanticSearch }
+        { name: 'AZURE_SEARCH_CONVERSATIONS_LOG_INDEX', value: AzureSearchConversationLogIndex }
+        { name: 'AZURE_AUTH_TYPE', value: authType }
+        { name: 'AZURE_SEARCH_KEY', value: authType == 'keys' ? listAdminKeys('Microsoft.Search/searchServices/${AzureCognitiveSearch}', '2021-04-01-preview').primaryKey : null }
         { name: 'AZURE_SEARCH_SEMANTIC_SEARCH_CONFIG', value: AzureSearchSemanticSearchConfig }
         { name: 'AZURE_SEARCH_INDEX_IS_PRECHUNKED', value: AzureSearchIndexIsPrechunked }
         { name: 'AZURE_SEARCH_TOP_K', value: AzureSearchTopK }
@@ -363,14 +356,14 @@ module Website 'br/public:avm/res/web/site:0.2.0' = {
         { name: 'AZURE_BLOB_ACCOUNT_NAME', value: StorageAccountName }
         { name: 'AZURE_BLOB_ACCOUNT_KEY', value: listKeys(StorageAccount.id, '2019-06-01').keys[0].value }
         { name: 'AZURE_BLOB_CONTAINER_NAME', value: BlobContainerName }
-        { name: 'DOCUMENT_PROCESSING_QUEUE_NAME', value: QueueName }
-        { name: 'BACKEND_URL', value: 'https://${FunctionName}.azurewebsites.net' }
-        { name: 'FUNCTION_KEY', value: ClientKey }
         { name: 'ORCHESTRATION_STRATEGY', value: OrchestrationStrategy }
         { name: 'AZURE_CONTENT_SAFETY_ENDPOINT', value: 'https://${Location}.api.cognitive.microsoft.com/' }
         { name: 'AZURE_CONTENT_SAFETY_KEY', value: listKeys('Microsoft.CognitiveServices/accounts/${ContentSafetyName}', '2023-05-01').key1 }
+        { name: 'AZURE_SPEECH_SERVICE_NAME', value: SpeechServiceName }
+        { name: 'AZURE_SPEECH_SERVICE_KEY', value: listKeys('Microsoft.CognitiveServices/accounts/${SpeechServiceName}', '2023-05-01').key1 }
+        { name: 'AZURE_SPEECH_SERVICE_REGION', value: Location }
       ]
-      linuxFxVersion: AdminWebAppImageName
+      linuxFxVersion: WebAppImageName
       minTlsVersion: '1.2'
     }
     managedIdentities: authType == 'rbac' ? {
