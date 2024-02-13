@@ -200,12 +200,12 @@ resource rgResource 'Microsoft.Resources/resourceGroups@2023-07-01' = {
   location: location
 }
 
-module OpenAI 'br/public:avm/res/cognitive-services/account:0.3.4' = {
+module OpenAI 'br/public:avm/res/cognitive-services/account:0.3.5' = {
   scope: rgResource
   name: '${uniqueString(deployment().name)}-${AzureOpenAIResource}'
   params: {
     location: location
-    kind: 'OpenAI' // TODO: Waiting for https://github.com/Azure/bicep-registry-modules/pull/980
+    kind: 'OpenAI'
     name: AzureOpenAIResource
     sku: 'S0'
     customSubDomainName: AzureOpenAIResource
@@ -290,7 +290,7 @@ module SpeechService 'br/public:avm/res/cognitive-services/account:0.3.4' = {
   }
 }
 
-module FormRecognizer 'br/public:avm/res/cognitive-services/account:0.3.4' = {
+module FormRecognizer 'br/public:avm/res/cognitive-services/account:0.3.5' = {
   scope: rgResource
   name: '${uniqueString(deployment().name)}-${FormRecognizerName}'
   params: {
@@ -307,13 +307,13 @@ module FormRecognizer 'br/public:avm/res/cognitive-services/account:0.3.4' = {
   }
 }
 
-module ContentSafety 'br/public:avm/res/cognitive-services/account:0.3.4' = {
+module ContentSafety 'br/public:avm/res/cognitive-services/account:0.3.5' = {
   scope: rgResource
   name: '${uniqueString(deployment().name)}-${ContentSafetyName}'
   params: {
     name: ContentSafetyName
     sku: 'S0'
-    kind: 'ContentSafety' // TODO: Waiting for https://github.com/Azure/bicep-registry-modules/pull/980
+    kind: 'ContentSafety'
     networkAcls: {
       defaultAction: 'Allow'
       virtualNetworkRules: []
@@ -434,7 +434,7 @@ module WebsiteName_admin 'br/public:avm/res/web/site:0.2.0' = {
         { name: 'AZURE_FORM_RECOGNIZER_ENDPOINT', value: 'https://${location}.api.cognitive.microsoft.com/' }
         { name: 'AZURE_FORM_RECOGNIZER_KEY', value: listKeys('Microsoft.CognitiveServices/accounts/${FormRecognizerName}', '2023-05-01').key1 }
         { name: 'AZURE_BLOB_ACCOUNT_NAME', value: StorageAccountName }
-        { name: 'AZURE_BLOB_ACCOUNT_KEY', value: listKeys(StorageAccount.id, '2019-06-01').keys[0].value }
+        { name: 'AZURE_BLOB_ACCOUNT_KEY', value: listKeys(StorageAccountExisting.id, '2019-06-01').keys[0].value }
         { name: 'AZURE_BLOB_CONTAINER_NAME', value: BlobContainerName }
         { name: 'DOCUMENT_PROCESSING_QUEUE_NAME', value: QueueName }
         { name: 'BACKEND_URL', value: 'https://${FunctionName}.azurewebsites.net' }
